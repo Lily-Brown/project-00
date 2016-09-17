@@ -2,15 +2,32 @@
 <html>
 <head>
   <link rel="stylesheet" type="text/css" href="style.css">
-  <link href="https://fonts.googleapis.com/css?family=Bungee" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Baloo+Bhaina" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
   <script src="scripts/scripts.js"></script>
 	<title>Connect 4!</title>
 </head>
 <body>
-<button id="resetButton">RESET</button>
-	<div id="wrapper">
+<div class="container">
 
+	<div class="row">
+ 		<div id="title" class="twelve columns">
+			<h1>CONNECT 4! <button id="resetButton">RESET</button></h1>			
+		</div>
+	</div>
+	<div class="row"> 
+
+		<div class="two columns">
+			<div class="playerTurn" id="playerOne"><img src="images/purple.png"></div>
+			<div id="highScores">TEST HERE</div>
+		</div>
+		<div class="eight columns">
+			<div id="wrapper"></div>
+		</div>
+		<div class="two columns">
+			<div id="playerTwo"><img src="images/blue.png"></div>
+		</div>
 	</div>
 
 </body>

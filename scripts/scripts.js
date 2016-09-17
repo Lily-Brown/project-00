@@ -3,8 +3,10 @@ $(document).ready(function() {
 	// On a click event, determine who's turn it is and have Player place marker
 	// Check if winState
 	function handleEvent(event){
-		gameBoard.setSpace(event);
-		newGame.makeMove(event,gameBoard);
+		if(!newGame.gameWon) {
+			gameBoard.setSpace(event);
+			newGame.makeMove(event,gameBoard);
+		}
 	}
 	
 	function resetGame(event) {
@@ -12,7 +14,7 @@ $(document).ready(function() {
 		newGame = new Game(2); // Initalizes game with 2 players
 		newGame.initalizeDisplayBoard(); // Adds div HTML to page
 		gameBoard = new Board();
-		newGame.players[0].color="red";
+		newGame.players[0].color="purple";
 		newGame.players[1].color="blue";
 		$('.box').on('click',handleEvent);	
 		$('#resetButton').on('click',resetGame);
@@ -23,7 +25,7 @@ $(document).ready(function() {
 	function Game(numberOfPlayers) {
 		this.players=[];
 		this.winner;
-
+		this.gameWon=false;
 		for(var i=0;i<numberOfPlayers;i++){
 			this.players[i]= new Player();
 		}
@@ -63,6 +65,7 @@ $(document).ready(function() {
 		}
 		if (gameBoard.isWin()) {
 			alert(this.winner +" won!");
+			this.gameWon=true;
 		}
 	}
 
@@ -226,11 +229,23 @@ $(document).ready(function() {
 	// Changes player's turn State to true;
 	Player.prototype.myTurn = function () {
 		this.isTurn=true;
+		if(this.color=="purple") {
+			$("#playerOne")[0].className="playerTurn";
+		}
+		else {
+			$("#playerTwo")[0].className="playerTurn";
+		}
 	}
 
 	// Changes player's turn State to false;
 	Player.prototype.endTurn = function() {
 		this.isTurn=false;
+		if(this.color=="purple") {
+			$("#playerOne").removeClass("playerTurn");
+		}
+		else {
+			$("#playerTwo").removeClass("playerTurn");
+		}
 	}
 
 
@@ -238,7 +253,7 @@ $(document).ready(function() {
 	newGame = new Game(2); //Initalize game with 2 players
 	newGame.initalizeDisplayBoard(); // Adds div HTML to page
 	gameBoard = new Board();
-	newGame.players[0].color="red";
+	newGame.players[0].color="purple";
 	newGame.players[1].color="blue";
 
 	$('.box').on('click',handleEvent);	
