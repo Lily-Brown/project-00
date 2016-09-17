@@ -1,7 +1,5 @@
 $(document).ready(function() {
 
-
-
 	// On a click event, determine who's turn it is and have Player place marker
 	// Check if winState
 	function handleEvent(event){
@@ -10,27 +8,21 @@ $(document).ready(function() {
 	}
 	
 	function resetGame(event) {
-		console.log("new Game!!")
-		newGame = new Game(2);
-		console.log("newGame:",newGame);
+		$('#wrapper').empty(); // Clears old board
+		newGame = new Game(2); // Initalizes game with 2 players
+		newGame.initalizeDisplayBoard(); // Adds div HTML to page
 		gameBoard = new Board();
 		newGame.players[0].color="red";
 		newGame.players[1].color="blue";
-		boardArray = $('.box');
-		for (var i=0;i<boardArray.length;i++) {
-			boardArray[i].removeClass("red");
-			boardArray[i].removeClass("blue");
-		}
+		$('.box').on('click',handleEvent);	
+		$('#resetButton').on('click',resetGame);
 	}	
 
 	// Game Constructor
 	// Should initialize a board full of null values, set first player's isTurn=true;
 	function Game(numberOfPlayers) {
-		this.resetButton=false;
-		// this.board=[];
 		this.players=[];
 		this.winner;
-		// this.space;
 
 		for(var i=0;i<numberOfPlayers;i++){
 			this.players[i]= new Player();
@@ -40,11 +32,11 @@ $(document).ready(function() {
 
 	// Creates HTML board on page
 	Game.prototype.initalizeDisplayBoard = function() {
-		for(var i=0;i<7;i++) {
+		for(var i=0;i<6;i++) {
 		  var rowId="starter"+i;
 		  var element="<div class='headbox "+rowId+" row_"+(i+1)+"''></div>"; 
 		  $('#wrapper').append(element);
-		  for(var j=0;j<6;j++) {
+		  for(var j=0;j<7;j++) {
 		  	 var rowElement="<div class='box row_"+(i+1)+" col_"+(j+1)+"'></div>";
 		  	 newRowId=".starter"+i;
 		  	 $(newRowId).append(rowElement);
@@ -71,8 +63,19 @@ $(document).ready(function() {
 		}
 		if (gameBoard.isWin()) {
 			alert(this.winner +" won!");
-			resetElement = "<button id='resetButton'>RESET</button>";
-			$('body').append(resetElement);
+		}
+	}
+
+	// Board Constructor
+	function Board() {
+		this.board=[];
+		this.space;
+		// Initalizing board and first player state
+		for(var i=0;i<7;i++) {
+		  this.board[i]=[];
+		  for(var j=0;j<6;j++) {
+		     this.board[i][j]= null;
+		  }
 		}
 	}
 
@@ -84,18 +87,35 @@ $(document).ready(function() {
 		this.space = [row-1, col-1];
 	}
 
-	// Make sure space is a valid move
+	// Drop marker to bottom row
 	Board.prototype.isValidMove = function() {
 		var row=this.space[0];
 		var col=this.space[1];
 		// If space is empty
 		if (this.board[col][row]==null) {
 			//If space is not in the bottom row
-			if(row!=6) {
-				// Check that spot below it is not null
+			if(row!=5) {
+				// Check that spot below  is not null
 				if(this.board[col][row+1]==null) {
-					return false;
+					if((row+1)==5) {
+						this.space[0]=5;
+					}
+					// console.log("SELECTED SPACE:",row,",",col)
+					for(var i=row+1;i<6;i++){
+						
+						// console.log("check SPACE:",i,",",col,this.board[col][i])
+						if(this.board[col][i]!=null) {	
+							// console.log("space before:",this.space[0])
+							this.space[0]=i-1;
+							return true;
+						}
+						else if(i==5){
+							this.space[0]=5;
+						}
+					}
+					return true;
 				}
+
 			}
 			return true; 
 		}
@@ -133,8 +153,8 @@ $(document).ready(function() {
 
 	// Game winning logic - four in a column
 	Board.prototype.fourInAColumn = function() {
-		for(row=0; row<4;row++){
-			for(col=0;col<6;col++) {
+		for(row=0; row<3;row++){
+			for(col=0;col<7;col++) {
 				if((this.board[col][row] != null) &&
 		           (this.board[col][row] == this.board[col][row+1]) &&
 		           (this.board[col][row] == this.board[col][row+2]) &&
@@ -149,8 +169,8 @@ $(document).ready(function() {
 
 	// Game winning logic - four right diagonally
 	Board.prototype.fourRightDiagonally = function() {
-		for(row=0; row<4;row++){
-			for(col=0;col<3;col++) {
+		for(row=0; row<3;row++){
+			for(col=0;col<4;col++) {
 				if((this.board[col][row] != null) &&
 		           (this.board[col][row] == this.board[col+1][row+1]) &&
 		           (this.board[col][row] == this.board[col+2][row+2]) &&
@@ -165,8 +185,8 @@ $(document).ready(function() {
 
 	// Game winning logic - four left diagonally
 	Board.prototype.fourLeftDiagonally = function() {
-		for(row=0; row<4;row++){
-			for(col=3;col<6;col++) {
+		for(row=0; row<3;row++){
+			for(col=3;col<7;col++) {
 				if((this.board[col][row] != null) &&
 		           (this.board[col][row] == this.board[col-1][row+1]) &&
 		           (this.board[col][row] == this.board[col-2][row+2]) &&
@@ -182,8 +202,12 @@ $(document).ready(function() {
 	// Player places a marker on the board
 	Board.prototype.placeMarker = function(event,player){
 		if(this.isValidMove(this.space)) {
+			// console.log("After check:",this.space[0])
 			this.board[this.space[1]][this.space[0]] = player.color;
-			event.target.className+=" "+player.color;		
+			var targetString=".row_"+(this.space[0]+1)+".col_"+(this.space[1]+1);
+			// console.log("targetString:",targetString)
+			event.target=$(targetString);
+			event.target[0].className+=" "+player.color;		
 			return true;
 		}
 		else {
@@ -192,18 +216,6 @@ $(document).ready(function() {
 		}
 	}
 
-	// Board Constructor
-	function Board() {
-		this.board=[];
-		this.space;
-		// Initalizing board and first player state
-		for(var i=0;i<6;i++) {
-		  this.board[i]=[];
-		  for(var j=0;j<7;j++) {
-		     this.board[i][j]= null;
-		  }
-		}
-	}
 	// Player Constructor
 	function Player() {
 		this.isTurn=false;
@@ -234,4 +246,4 @@ $(document).ready(function() {
 })
 
 
-	
+
