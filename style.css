@@ -3,7 +3,7 @@ body {
 	text-align: center;
 }
 
-h1, #playerOne, #playerTwo, #highScores {
+h1 {
 	font-family: 'Baloo Bhaina', cursive;
 }
 
@@ -25,11 +25,16 @@ h1, #playerOne, #playerTwo, #highScores {
 .playerTurn {
 	background-image: url("images/highlight.png");
 }
-.purple, .blue, .playerTurn {
+
+.playerTurn, #playerOne, #playerTwo {
+		top: 5vh;
+}
+
+.purple, .blue, .playerTurn, #playerOne, #playerTwo {
 	background-position: center;
 	background-repeat: no-repeat;
 	background-size: contain;
-
+	position:relative;
 }
 .purple {
 	background-image: url("images/purple.png");	
@@ -68,9 +73,14 @@ h1, #playerOne, #playerTwo, #highScores {
 	transform: translateY(4px);
 }
 
-#highScores {
-	position:relative;
-	top: 5vh;
-	font-size: 16px;
-	color:black;
+#title, h1, #resetButton {
+	display:inline;
+}
+
+#purpleText {
+	color:#9f62b2;
+}
+
+#blueText {
+	color:#748cc3;
 }

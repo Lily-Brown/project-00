@@ -1,7 +1,6 @@
 $(document).ready(function() {
 
-	// On a click event, determine who's turn it is and have Player place marker
-	// Check if winState
+	// On click, if Game is still in session, send Board the space and make move
 	function handleEvent(event){
 		if(!newGame.gameWon) {
 			gameBoard.setSpace(event);
@@ -9,6 +8,7 @@ $(document).ready(function() {
 		}
 	}
 	
+	// On Reset, re-initalize everything
 	function resetGame(event) {
 		$('#wrapper').empty(); // Clears old board
 		newGame = new Game(2); // Initalizes game with 2 players
@@ -16,12 +16,14 @@ $(document).ready(function() {
 		gameBoard = new Board();
 		newGame.players[0].color="purple";
 		newGame.players[1].color="blue";
+		$('h1').html("CONNECT 4!  ");
+		$('h1').removeAttr("id");
 		$('.box').on('click',handleEvent);	
 		$('#resetButton').on('click',resetGame);
 	}	
 
 	// Game Constructor
-	// Should initialize a board full of null values, set first player's isTurn=true;
+	// Should initialize first player's isTurn=true;
 	function Game(numberOfPlayers) {
 		this.players=[];
 		this.winner;
@@ -46,8 +48,8 @@ $(document).ready(function() {
 		}
 	};
 
+	// Player tries to place Marker, Game checks for Win state
 	Game.prototype.makeMove = function(event,gameBoard){
-		gameBoard.setSpace(event);
 		var nextTurn;
 		if(this.players[0].isTurn) {
 			nextTurn = gameBoard.placeMarker(event,this.players[0]);
@@ -64,8 +66,10 @@ $(document).ready(function() {
 			}
 		}
 		if (gameBoard.isWin()) {
-			alert(this.winner +" won!");
+			var color=this.winner;
 			this.gameWon=true;
+			$('h1').html(color.toUpperCase()+" WINS!  ");
+			$('h1').attr("id",color+"Text");
 		}
 	}
 
@@ -73,7 +77,7 @@ $(document).ready(function() {
 	function Board() {
 		this.board=[];
 		this.space;
-		// Initalizing board and first player state
+		// Initalizing board to array of null values
 		for(var i=0;i<7;i++) {
 		  this.board[i]=[];
 		  for(var j=0;j<6;j++) {
@@ -90,7 +94,7 @@ $(document).ready(function() {
 		this.space = [row-1, col-1];
 	}
 
-	// Drop marker to bottom row
+	// Check for Valid Move and update Board.space
 	Board.prototype.isValidMove = function() {
 		var row=this.space[0];
 		var col=this.space[1];
@@ -98,17 +102,12 @@ $(document).ready(function() {
 		if (this.board[col][row]==null) {
 			//If space is not in the bottom row
 			if(row!=5) {
-				// Check that spot below  is not null
+				// Check that spot below is not null
 				if(this.board[col][row+1]==null) {
-					if((row+1)==5) {
-						this.space[0]=5;
-					}
-					// console.log("SELECTED SPACE:",row,",",col)
+					// Move down rows checking for non-null value
 					for(var i=row+1;i<6;i++){
-						
-						// console.log("check SPACE:",i,",",col,this.board[col][i])
+						// Update Board.space to be lowest position in this column that isn't null
 						if(this.board[col][i]!=null) {	
-							// console.log("space before:",this.space[0])
 							this.space[0]=i-1;
 							return true;
 						}
@@ -122,8 +121,8 @@ $(document).ready(function() {
 			}
 			return true; 
 		}
+		// If space is not empty, Not a Valid Move
 		else {
-			alert("This spot is taken!");
 			return false;
 		}
 	}
@@ -204,17 +203,17 @@ $(document).ready(function() {
 
 	// Player places a marker on the board
 	Board.prototype.placeMarker = function(event,player){
+		// If Valid move
 		if(this.isValidMove(this.space)) {
-			// console.log("After check:",this.space[0])
+			// Set space to player's color
 			this.board[this.space[1]][this.space[0]] = player.color;
+			// Update the view to be the correct player's Marker
 			var targetString=".row_"+(this.space[0]+1)+".col_"+(this.space[1]+1);
-			// console.log("targetString:",targetString)
 			event.target=$(targetString);
 			event.target[0].className+=" "+player.color;		
 			return true;
 		}
 		else {
-			alert("Not a valid move!");
 			return false;
 		}
 	}
@@ -222,11 +221,11 @@ $(document).ready(function() {
 	// Player Constructor
 	function Player() {
 		this.isTurn=false;
-		this.color;
+		this.color;	
 	}
 
 
-	// Changes player's turn State to true;
+	// Changes player's turn State to true and Update View;
 	Player.prototype.myTurn = function () {
 		this.isTurn=true;
 		if(this.color=="purple") {
@@ -237,7 +236,7 @@ $(document).ready(function() {
 		}
 	}
 
-	// Changes player's turn State to false;
+	// Changes player's turn State to false and Update View;
 	Player.prototype.endTurn = function() {
 		this.isTurn=false;
 		if(this.color=="purple") {
@@ -248,14 +247,14 @@ $(document).ready(function() {
 		}
 	}
 
-
 	// --> BEGIN GAME!! <-- //
-	newGame = new Game(2); //Initalize game with 2 players
+	newGame = new Game(2); // Initalize Game with 2 players
 	newGame.initalizeDisplayBoard(); // Adds div HTML to page
-	gameBoard = new Board();
+	gameBoard = new Board(); // Initialize Board
 	newGame.players[0].color="purple";
 	newGame.players[1].color="blue";
 
+	// Setup Event Listeners
 	$('.box').on('click',handleEvent);	
 	$('#resetButton').on('click',resetGame);
 })
