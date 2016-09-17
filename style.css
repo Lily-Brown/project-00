@@ -1,3 +1,7 @@
+body {
+	position: relative;
+}
+
 .headbox {
 	height:20vh;
 	width:60%;
@@ -21,7 +25,15 @@
 }
 
 #wrapper {
-	position:relative;
+	position:absolute;
 	width: 100%;
 	text-align: center;
+	margin: auto 0;
+	top: 10vh;
+	border: 1px solid black;
+}
+
+#resetButton {
+	position: absolute;
+	left: 48%;
 }
