@@ -1,3 +1,7 @@
+/*div {
+	border: 1px solid black;
+}*/
+
 body {
 	font-family: 'Baloo Bhaina', cursive;
 	text-align: center;
@@ -20,14 +24,6 @@ h1 {
 	display:inline-block;
 	background-color:white;
 	border-radius:50%;
-}
-
-.playerTurn {
-	background-image: url("images/highlight.png");
-}
-
-.playerTurn, #playerOne, #playerTwo {
-		top: 5vh;
 }
 
 .purple, .blue, .playerTurn, #playerOne, #playerTwo {
@@ -83,4 +79,43 @@ h1 {
 
 #blueText {
 	color:#748cc3;
+}
+
+#ponyLeft, #ponyRight, #playerOne, #playerTwo  {
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: contain;
+}
+#ponyLeft {
+	height: 300px;
+	background-image: url("http://bit.ly/2cY2TNs");
+}
+
+#ponyRight {
+	height: 300px;
+	background-image: url("http://bit.ly/2d73JrQ");
+}
+
+.playerTurn {
+	border: 6px solid #e58585;
+	border-radius:50%;
+	padding: 10%;
+}
+
+.hideBorder {
+	border: 6px solid white;
+	border-radius:50%;
+	padding: 10%;
+}
+
+#playerOne {
+	height: 15vh;
+	padding: 10%;
+	background-image: url("images/purple.png");
+}
+
+#playerTwo {
+	height: 15vh;
+	padding: 10%;
+	background-image: url("images/blue.png");
 }

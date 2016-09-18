@@ -1,33 +1,47 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <link rel="stylesheet" type="text/css" href="style.css">
-  <link href="https://fonts.googleapis.com/css?family=Baloo+Bhaina" rel="stylesheet">
-  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
-  <script src="scripts/scripts.js"></script>
-	<title>Connect 4!</title>
-</head>
+	<head>
+		<link href="https://fonts.googleapis.com/css?family=Baloo+Bhaina" rel="stylesheet">
+		<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.css">
+		<link rel="stylesheet" type="text/css" href="style.css">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+		<script src="scripts/scripts.js"></script>
+		<title>Connect 4!</title>
+	</head>
+
 <body>
 <div class="container">
 
+	<!-- ROW ONE - TITLE AND RESET BUTTON -->
 	<div class="row">
  		<div id="title" class="twelve columns">
 			<h1>CONNECT 4!  </h1><button id="resetButton">RESET</button>			
 		</div>
 	</div>
-	<div class="row"> 
 
+	<!-- ROW TWO - PLAYERS AND GAME BOARD -->
+	<div class="row"> 
 		<div class="two columns">
-			<div class="playerTurn" id="playerOne"><img src="images/purple.png"></div>
+			<div class="row">
+				<div id="playerOne"></div>
+			</div>
+			<div class="row">
+				<div id="ponyLeft"></div>
+			</div>
 		</div>
 		<div class="eight columns">
 			<div id="wrapper"></div>
 		</div>
 		<div class="two columns">
-			<div id="playerTwo"><img src="images/blue.png"></div>
+			<div class="row">
+				<div id="playerTwo"></div>
+			</div>
+			<div class="row">
+				<div id="ponyRight"></div>
+			</div>
 		</div>
 	</div>
-
+</div>
 </body>
+
 </html>

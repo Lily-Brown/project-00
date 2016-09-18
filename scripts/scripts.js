@@ -16,11 +16,21 @@ $(document).ready(function() {
 		gameBoard = new Board();
 		newGame.players[0].color="purple";
 		newGame.players[1].color="blue";
+		// $('h1').html("CONNECT 4!  ");
+		// $('h1').removeAttr("id");
+		// $('.box').on('click',handleEvent);	
+		// $('#resetButton').on('click',resetGame);
+		reinitializeHTML();
+	}	
+
+	function reinitializeHTML() {
 		$('h1').html("CONNECT 4!  ");
 		$('h1').removeAttr("id");
 		$('.box').on('click',handleEvent);	
 		$('#resetButton').on('click',resetGame);
-	}	
+		$('#playerOne').attr('class','playerTurn');
+		$('#playerTwo').attr('class','hideBorder');
+	}
 
 	// Game Constructor
 	// Should initialize first player's isTurn=true;
@@ -46,6 +56,8 @@ $(document).ready(function() {
 		  	 $(newRowId).append(rowElement);
 		  }
 		}
+		$('#playerOne').attr('class','playerTurn');
+		$('#playerTwo').attr('class','hideBorder');
 	};
 
 	// Player tries to place Marker, Game checks for Win state
@@ -68,7 +80,13 @@ $(document).ready(function() {
 		if (gameBoard.isWin()) {
 			var color=this.winner;
 			this.gameWon=true;
-			$('h1').html(color.toUpperCase()+" WINS!  ");
+			// $('h1').html(color.toUpperCase()+" WINS!  ");
+			if(this.winner=="purple") {
+				$('h1').html("TWILIGHT SPARKLE WINS!  ");
+			}
+			else {
+				$('h1').html("PRINCESS LUNA WINS!  ");
+			}
 			$('h1').attr("id",color+"Text");
 		}
 	}
@@ -140,7 +158,7 @@ $(document).ready(function() {
 	// Game winning logic - four in a row
 	Board.prototype.fourInARow = function() {
 		for(row=0; row<7;row++){
-			for(col=0;col<3;col++) {
+			for(col=0;col<4;col++) {
 				if((this.board[col][row] != null) &&
 		           (this.board[col][row] == this.board[col+1][row]) &&
 		           (this.board[col][row] == this.board[col+2][row]) &&
@@ -229,22 +247,18 @@ $(document).ready(function() {
 	Player.prototype.myTurn = function () {
 		this.isTurn=true;
 		if(this.color=="purple") {
-			$("#playerOne")[0].className="playerTurn";
+			$('#playerOne').attr('class','playerTurn');
+			$('#playerTwo').attr('class','hideBorder');
 		}
 		else {
-			$("#playerTwo")[0].className="playerTurn";
+			$('#playerTwo').attr('class','playerTurn');
+			$('#playerOne').attr('class','hideBorder');
 		}
 	}
 
 	// Changes player's turn State to false and Update View;
 	Player.prototype.endTurn = function() {
 		this.isTurn=false;
-		if(this.color=="purple") {
-			$("#playerOne").removeClass("playerTurn");
-		}
-		else {
-			$("#playerTwo").removeClass("playerTurn");
-		}
 	}
 
 	// --> BEGIN GAME!! <-- //
