@@ -1,5 +1,7 @@
 $(document).ready(function() {
 
+	playerArray = [ {"Twilight Sparkle":"purple"},{"Princess Luna":"blue"}];
+
 	// On click, if Game is still in session, send Board the space and make move
 	function handleEvent(event){
 		if(!newGame.gameWon) {
@@ -11,15 +13,15 @@ $(document).ready(function() {
 	// On Reset, re-initalize everything
 	function resetGame(event) {
 		$('#wrapper').empty(); // Clears old board
-		newGame = new Game(2); // Initalizes game with 2 players
+		newGame = new Game(playerArray.length); // Initalizes game with 2 players
 		newGame.initalizeDisplayBoard(); // Adds div HTML to page
 		gameBoard = new Board();
-		newGame.players[0].color="purple";
-		newGame.players[1].color="blue";
-		// $('h1').html("CONNECT 4!  ");
-		// $('h1').removeAttr("id");
-		// $('.box').on('click',handleEvent);	
-		// $('#resetButton').on('click',resetGame);
+		playerArray.forEach(function(value,index) {
+			for(key in value) {
+				newGame.players[index].name=key;
+				newGame.players[index].color=value[key];
+			}
+		});
 		reinitializeHTML();
 	}	
 
@@ -28,12 +30,17 @@ $(document).ready(function() {
 		$('h1').removeAttr("id");
 		$('.box').on('click',handleEvent);	
 		$('#resetButton').on('click',resetGame);
-		$('#playerOne').attr('class','playerTurn');
-		$('#playerTwo').attr('class','hideBorder');
+		// Always need to initialize player1 as First Player 
+		$('#player1').attr('class','playerTurn'); 
+		// Loop through the rest of the players -- Scalable, in theory. Not for this board.
+		for(var i=1;i<newGame.players.length;i++) { 
+			var queryString = "#player"+(i+1);
+			$(queryString).attr('class','hideBorder'); 
+		}
+		
 	}
 
 	// Game Constructor
-	// Should initialize first player's isTurn=true;
 	function Game(numberOfPlayers) {
 		this.players=[];
 		this.winner;
@@ -41,6 +48,7 @@ $(document).ready(function() {
 		for(var i=0;i<numberOfPlayers;i++){
 			this.players[i]= new Player();
 		}
+		// Should initialize first player's isTurn=true;
 		this.players[0].isTurn=true;		
 	}
 
@@ -56,38 +64,46 @@ $(document).ready(function() {
 		  	 $(newRowId).append(rowElement);
 		  }
 		}
-		$('#playerOne').attr('class','playerTurn');
-		$('#playerTwo').attr('class','hideBorder');
+		// Always need to initialize player1 as First Player 
+		$('#player1').attr('class','playerTurn'); 
+		// Loop through the rest of the players -- Scalable, in theory. Not for this board.
+		for(var i=1;i<newGame.players.length;i++) { 
+			var queryString = "#player"+(i+1);
+			$(queryString).attr('class','hideBorder'); 
+		}
 	};
 
 	// Player tries to place Marker, Game checks for Win state
 	Game.prototype.makeMove = function(event,gameBoard){
-		var nextTurn;
-		if(this.players[0].isTurn) {
-			nextTurn = gameBoard.placeMarker(event,this.players[0]);
-			if(nextTurn) {
-				this.players[1].myTurn();
-				this.players[0].endTurn();
-			}
-		}
-		else {
-			nextTurn = gameBoard.placeMarker(event,this.players[1]);
-			if(nextTurn){
-				this.players[0].myTurn();
-				this.players[1].endTurn();
+		var validMove;
+		var player=this.players
+		for(var i=0;i<player.length;i++){
+			if(player[i].isTurn) {
+				validMove = gameBoard.placeMarker(event,player[i]);
+				if(i!=player.length-1) {
+					if(validMove) {
+							player[i].endTurn();
+							player[i+1].myTurn();
+					}				
+				}
+				else {
+					if(validMove) {
+							player[i].endTurn();
+							player[0].myTurn();
+					}						
+				}
 			}
 		}
 		if (gameBoard.isWin()) {
-			var color=this.winner;
+			var winningColor=this.winner;
 			this.gameWon=true;
 			// $('h1').html(color.toUpperCase()+" WINS!  ");
-			if(this.winner=="purple") {
-				$('h1').html("TWILIGHT SPARKLE WINS!  ");
-			}
-			else {
-				$('h1').html("PRINCESS LUNA WINS!  ");
-			}
-			$('h1').attr("id",color+"Text");
+			this.players.forEach(function(player, index) {
+				if(winningColor==player.color) {
+					$('h1').html(player.name.toUpperCase()+" WINS!  ");
+				}
+			});
+			$('h1').attr("id",winningColor+"Text");
 		}
 	}
 
@@ -238,21 +254,24 @@ $(document).ready(function() {
 
 	// Player Constructor
 	function Player() {
+		this.name;
 		this.isTurn=false;
 		this.color;	
 	}
 
-
 	// Changes player's turn State to true and Update View;
 	Player.prototype.myTurn = function () {
 		this.isTurn=true;
-		if(this.color=="purple") {
-			$('#playerOne').attr('class','playerTurn');
-			$('#playerTwo').attr('class','hideBorder');
-		}
-		else {
-			$('#playerTwo').attr('class','playerTurn');
-			$('#playerOne').attr('class','hideBorder');
+		var myColor=this.color;
+		var playersArray=newGame.players;
+		for(var i=0;i<playersArray.length;i++) {
+			var playerElement="#player"+(i+1);
+			if(playersArray[i].isTurn) {
+				$(playerElement).attr('class','playerTurn');
+			}
+			else {
+				$(playerElement).attr('class','hideBorder');
+			}
 		}
 	}
 
@@ -265,13 +284,13 @@ $(document).ready(function() {
 	newGame = new Game(2); // Initalize Game with 2 players
 	newGame.initalizeDisplayBoard(); // Adds div HTML to page
 	gameBoard = new Board(); // Initialize Board
-	newGame.players[0].color="purple";
-	newGame.players[1].color="blue";
-
+	playerArray.forEach(function(value,index) {
+		for(key in value) {
+			newGame.players[index].name=key;
+			newGame.players[index].color=value[key];
+		}
+	});
 	// Setup Event Listeners
 	$('.box').on('click',handleEvent);	
 	$('#resetButton').on('click',resetGame);
 })
-
-
-
