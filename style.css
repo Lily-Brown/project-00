@@ -40,7 +40,7 @@ h1 {
 	text-align: center;
 	border: 2px solid black;
 	border-radius:20px;
-	background-image: url('http://wallpapercave.com/wp/x2gTkZk.png');
+	background-image: url('images/background.png');
 }
 
 
@@ -82,12 +82,12 @@ h1 {
 }
 #ponyLeft {
 	height: 300px;
-	background-image: url("http://bit.ly/2cY2TNs");
+	background-image: url("images/twilight-sparkle.png");
 }
 
 #ponyRight {
 	height: 300px;
-	background-image: url("http://bit.ly/2d73JrQ");
+	background-image: url("images/princess-luna.png");
 }
 
 .playerTurn {

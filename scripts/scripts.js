@@ -1,6 +1,6 @@
 $(document).ready(function() {
 
-	playerArray = [ {"Twilight Sparkle":"purple"},{"Princess Luna":"blue"}];
+	var playerArray = [ {"Twilight Sparkle":"purple"},{"Princess Luna":"blue"}];
 
 	// On click, if Game is still in session, send Board the space and make move
 	function handleEvent(event){
@@ -97,7 +97,6 @@ $(document).ready(function() {
 		if (gameBoard.isWin()) {
 			var winningColor=this.winner;
 			this.gameWon=true;
-			// $('h1').html(color.toUpperCase()+" WINS!  ");
 			this.players.forEach(function(player, index) {
 				if(winningColor==player.color) {
 					$('h1').html(player.name.toUpperCase()+" WINS!  ");
@@ -151,7 +150,6 @@ $(document).ready(function() {
 					}
 					return true;
 				}
-
 			}
 			return true; 
 		}
@@ -262,7 +260,6 @@ $(document).ready(function() {
 	// Changes player's turn State to true and Update View;
 	Player.prototype.myTurn = function () {
 		this.isTurn=true;
-		var myColor=this.color;
 		var playersArray=newGame.players;
 		for(var i=0;i<playersArray.length;i++) {
 			var playerElement="#player"+(i+1);
