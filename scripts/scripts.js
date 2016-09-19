@@ -41,6 +41,7 @@ $(document).ready(function() {
 	}
 
 	// Game Constructor
+	// numberOfPlayers -- uses playerArray.length (array of key/value pairs in the form "player-name"/"color") to determine how many players
 	function Game(numberOfPlayers) {
 		this.players=[];
 		this.winner;
@@ -278,7 +279,7 @@ $(document).ready(function() {
 	}
 
 	// --> BEGIN GAME!! <-- //
-	newGame = new Game(2); // Initalize Game with 2 players
+	newGame = new Game(playerArray.length); // Initalize Game with 2 players
 	newGame.initalizeDisplayBoard(); // Adds div HTML to page
 	gameBoard = new Board(); // Initialize Board
 	playerArray.forEach(function(value,index) {

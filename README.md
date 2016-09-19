@@ -11,7 +11,8 @@
 <li>Stick with KISS (Keep It Simple Stupid) and DRY (Don't Repeat Yourself) principles</li>
 <li>Use Javascript or jQuery for DOM manipulation</li>
 <li>Use OOP Design (at least 2 custom Constructors)</li>
-<li>Deploy your game online, where the rest of the world can access it using bitballoon</li>
+<li>Deploy your game online, where the rest of the world can access it using bitballoon</br>
+* located here: <a href="https://lilycole.github.io/project01/connect-four.html">Connect-Four</a></li>
 <li>Use semantic markup for HTML and CSS (adhere to best practices)</li>
 </ul>
 </p>
@@ -27,7 +28,12 @@
 
 <h2>My Connect Four Constructors</h2>
 
-<h3>Game</h3>
+<h3>Game(numberOfPlayers)</h3>
+<p>Arguments:
+<ul>
+<li>numberOfPlayers -- uses playerArray.length (array of key/value pairs in the form "player-name"/"color") to determine how many players</li>
+</ul>
+</p>
 <p>Properties:
 <ul>
 <li>winner -- stores winner of the current game</li>
@@ -43,7 +49,7 @@
 </ul>
 </p>
 
-<h3>Board</h3>
+<h3>Board()</h3>
 <p>Properties:
 <ul>
 <li>board -- array that initalizes to be full of null values</li>
@@ -63,7 +69,7 @@
 </ul>
 </p>
 
-<h3>Player</h3>
+<h3>Player()</h3>
 <p>Properties:
 <ul>
 <li>name -- Player's name for display</li>
