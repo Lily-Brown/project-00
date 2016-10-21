@@ -82,5 +82,16 @@
 <li>myTurn -- changes player's turn State to true and Update View</li>
 <li>endTurn -- changes player's turn State to false and Update View</li>
 </ul>
+
+<h2>Installation</h2>
+<p>This is a pretty simple project.</p>
+<ol>
+<li>Fork and clone this repository.</li>
+<li>Open index.html in your browser.</li>
+</ol>
+
+<h2>Screenshot</h2>
+<p>Win State:</p>
+<img src='http://i.imgur.com/Ww1mt0r.png'>
 </body>
 </html>
