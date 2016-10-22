@@ -1,21 +1,17 @@
 <html>
-<h1>Project 00 - Connect Four</h1>
+# Project 00 - Connect Four!
 
-<h2>Technical Requirements</h2>
-
-<p>Per Class Guidelines, the application must:
+<h2> Synopsis - GA Project Requirements</h2>
 <ul>
-<li>Render a beautiful game in the browser and be easy to use</li>
+<li>Render a beautiful and easy to use game in the browser</li>
 <li>Design logic for winning & visually display which player won</li>
 <li>Include separate HTML / CSS / JavaScript files</li>
 <li>Stick with KISS (Keep It Simple Stupid) and DRY (Don't Repeat Yourself) principles</li>
 <li>Use Javascript or jQuery for DOM manipulation</li>
 <li>Use OOP Design (at least 2 custom Constructors)</li>
-<li>Deploy your game online, where the rest of the world can access it using bitballoon</br>
-* located here: <a href="https://lilycole.github.io/project01/connect-four.html">Connect-Four</a></li>
+<li>Deploy your game online</li>
 <li>Use semantic markup for HTML and CSS (adhere to best practices)</li>
 </ul>
-</p>
 
 <h2>Connect Four Basics</h2>
 <p>Rules:
@@ -25,6 +21,19 @@
 <li>The first Player to get Four in a Row either: horizonally, vertically or diagonally wins</li>
 </ul>
 </p>
+
+<h2>Installation</h2>
+<p>This is a pretty simple project.</p>
+<ol>
+<li>Fork and clone this repository.</li>
+<li>Open index.html in your browser.</li>
+</ol>
+
+<h2>Screenshot</h2>
+<p>Win State:</p>
+<img src='http://i.imgur.com/Ww1mt0r.png'>
+</body>
+</html>
 
 <h2>My Connect Four Constructors</h2>
 
@@ -82,16 +91,3 @@
 <li>myTurn -- changes player's turn State to true and Update View</li>
 <li>endTurn -- changes player's turn State to false and Update View</li>
 </ul>
-
-<h2>Installation</h2>
-<p>This is a pretty simple project.</p>
-<ol>
-<li>Fork and clone this repository.</li>
-<li>Open index.html in your browser.</li>
-</ol>
-
-<h2>Screenshot</h2>
-<p>Win State:</p>
-<img src='http://i.imgur.com/Ww1mt0r.png'>
-</body>
-</html>
